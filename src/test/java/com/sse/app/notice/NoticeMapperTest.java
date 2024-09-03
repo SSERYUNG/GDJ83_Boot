@@ -17,15 +17,15 @@ class NoticeMapperTest {
 	@Test
 	void getListTest() throws Exception {
 		
-		List<NoticeVO> ar = noticeMapper.getList();
-		assertNotEquals(0, ar.size());
+//		List<NoticeVO> ar = noticeMapper.getList();
+//		assertNotEquals(0, ar.size());
+//		
+//		for(NoticeVO n : ar) {
+//			System.out.println(n.toString());
+//		}
 		
-		for(NoticeVO n : ar) {
-			System.out.println(n.toString());
-		}
-		
-//		int result = noticeDAO.addNotice();
-//		assertEquals(1, result);
+		int result = noticeMapper.addNotice();
+		assertEquals(1, result);
 		
 	}
 }

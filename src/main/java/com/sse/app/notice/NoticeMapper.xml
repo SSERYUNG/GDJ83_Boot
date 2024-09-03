@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	</select>
  	
  	<insert id="addNotice">
- 		INSERT INTO NOTICE VALUES (3,'W3','T3','C3',now())
+ 		INSERT INTO NOTICE VALUES (4,'W4','T4','C4',now())
  	</insert>
  	
  </mapper>

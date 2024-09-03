@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.sse.app.qna.QnaMapper">
+ 	<select id="getList" parameterType="Pager" resultType="QnaVO">
+ 		SELECT * FROM QNA 
+ 		
+ 		<where>
+	 		<if test="kind == 'k1'">
+	 			BOARD_WRITER LIKE CONCAT('%',#{search},'%')
+	 		</if>
+	 		
+	 		<if test="kind == 'k2'">
+	 			BOARD_CONTENTS LIKE CONCAT('%',#{search},'%')
+	 		</if>
+	 		
+	 		<if test="kind == 'k3'">
+	 			BOARD_TITLE LIKE CONCAT('%',#{search},'%')
+	 		</if>
+ 		</where>
+ 		
+ 		ORDER BY BOARD_NUM
+ 		LIMIT #{startRow}, #{perPage}
+ 	</select>
+ 	
+ 	<insert id="add" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="boardNum">
+ 		INSERT INTO QNA VALUE(#{boardNum}, #{boardWriter}, #{boardTitle}, #{boardContents}, NOW(), #{ref}, 0,0)
+ 	</insert>
+ 	
+ 	<update id="refUpdate" parameterType="QnaVO">
+ 		UPDATE QNA SET REF=#{boardNum} WHERE BOARD_NUM=#{boardNum}
+ 	</update>
+ 	
+ 	<select id="getDetail" parameterType="QnaVO" resultType="QnaVO">
+ 		SELECT * FROM QNA WHERE BOARD_NUM=#{boardNum}
+ 	</select>
+ 	
+ 	
+ </mapper>
