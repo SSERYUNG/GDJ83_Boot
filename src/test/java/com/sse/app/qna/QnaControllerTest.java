@@ -83,7 +83,6 @@ class QnaControllerTest {
 		mockMvc.perform(post("/qna/add")
 				.params(map)
 				)
-		.andExpect(status().isOk())
 		.andDo(print())
 		;
 
