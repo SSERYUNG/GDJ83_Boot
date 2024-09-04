@@ -30,7 +30,7 @@
 		</c:forEach>
 	</tbody>
 </table>
-<a href="./add">Add Qna</a>
+<a href="./add">Add 화면으로 가기</a>
 
 </body>
 </html>
