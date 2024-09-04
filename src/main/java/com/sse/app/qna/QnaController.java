@@ -56,7 +56,7 @@ public class QnaController {
 	@GetMapping("detail")
 	public void getDetail(QnaVO qnaVO, Model model) throws Exception{
 		qnaVO = qnaService.getDetail(qnaVO);
-		model.addAttribute("qnaVO", qnaVO);
+		model.addAttribute("vo", qnaVO);
 	}
 	
 }

@@ -36,22 +36,29 @@ public class QnaService {
 	}
 	
 	public int add(QnaVO qnaVO,MultipartFile[] attaches) throws Exception {
-//		log.info("Insert before:{}", qnaVO.getBoardNum());
-//		int result = qnaMapper.add(qnaVO);
-//		log.info("Insert after:{}", qnaVO.getBoardNum());
-//		result = qnaMapper.refUpdate(qnaVO);
+
+		int result = qnaMapper.add(qnaVO);
+		result = qnaMapper.refUpdate(qnaVO);
 		
 		//파일을 HDD(하드디스크)에 저장 후 DB에 정보를 추가
 		for(MultipartFile mf : attaches) {
-			if(mf.isEmpty()||mf==null) {
+			if(mf==null||mf.isEmpty()) {
 				continue;
 			}
-			String fileName = fileManager.fileSave(upload+name,mf); //D:/upload/qna 경로가 완성!
-			log.info("저장된 파일명: {}",fileName);
+//			D:/upload/qna 경로가 완성!
+			String fileName = fileManager.fileSave(upload+name,mf);
+			
+			QnaFileVO qnaFileVO = new QnaFileVO();
+			qnaFileVO.setFileName(fileName);
+			qnaFileVO.setOriName(mf.getOriginalFilename());
+			qnaFileVO.setBoardNum(qnaVO.getBoardNum());
+			
+			result = qnaMapper.addFile(qnaFileVO);
+			
 		}
 		
-		return 0;
-//		return result;
+		return result;
+		
 	}
 	
 	public QnaVO getDetail(QnaVO qnaVO) throws Exception {

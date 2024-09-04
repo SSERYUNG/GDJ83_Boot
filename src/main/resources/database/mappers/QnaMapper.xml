@@ -21,7 +21,7 @@
 	 		</if>
  		</where>
  		
- 		ORDER BY BOARD_NUM
+ 		ORDER BY BOARD_NUM DESC
  		LIMIT #{startRow}, #{perPage}
  	</select>
  	
@@ -33,9 +33,35 @@
  		UPDATE QNA SET REF=#{boardNum} WHERE BOARD_NUM=#{boardNum}
  	</update>
  	
- 	<select id="getDetail" parameterType="QnaVO" resultType="QnaVO">
- 		SELECT * FROM QNA WHERE BOARD_NUM=#{boardNum}
+ 	<select id="getDetail" parameterType="QnaVO" resultMap="getDetailResult">
+ 		SELECT * 
+ 		FROM QNA Q
+ 		LEFT JOIN
+ 		QNAFILES QF
+ 		ON Q.BOARD_NUM=QF.BOARD_NUM
+ 		WHERE Q.BOARD_NUM=#{boardNum}
  	</select>
+ 	
+ 	<resultMap type="QnaVO" id="getDetailResult">
+ 		<id property="boardNum" column="BOARD_NUM"/>
+ 		<result property="boardWriter" column="BOARD_WRITER"/>
+ 		<result property="boardTitle" column="BOARD_TITLE"/>
+ 		<result property="boardContents" column="BOARD_CONTENTS"/>
+ 		<result property="createDate" column="CREATE_DATE"/>
+ 		<result property="ref" column="REF"/>
+ 		<result property="step" column="STEP"/>
+ 		<result property="depth" column="DEPTH"/>
+ 		<collection property="ar" javaType="java.util.List" ofType="QnaFileVO">
+ 			<id property="fileNum" column="FILE_NUM"/>
+ 			<result property="fileName" column="FILE_NAME"/>
+ 			<result property="oriName" column="ORI_NAME"/>
+ 		</collection>
+ 	</resultMap>
+ 	
+ 	<insert id="addFile" parameterType="QnaFileVO">
+ 		INSERT INTO QNAFILES (FILE_NAME,ORI_NAME,BOARD_NUM)
+ 		VALUES (#{fileName},#{oriName},#{boardNum})
+ 	</insert>
  	
  	
  </mapper>

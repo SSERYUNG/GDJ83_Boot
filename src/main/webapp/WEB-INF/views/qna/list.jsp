@@ -23,7 +23,7 @@
 		<c:forEach items="${list}" var="vo">
 			<tr>
 			<th>${vo.boardNum}</th>
-			<th>${vo.boardTitle}</th>
+			<th><a href="./detail?boardNum=${vo.boardNum}">${vo.boardTitle}</a></th>
 			<th>${vo.boardWriter}</th>
 			<th>${vo.createDate}</th>
 			</tr>
