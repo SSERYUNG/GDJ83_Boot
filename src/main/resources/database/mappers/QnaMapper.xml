@@ -64,4 +64,8 @@
  	</insert>
  	
  	
+ 	<select id="getFileDetail" parameterType="QnaFileVO" resultType="QnaFileVO">
+ 		SELECT * FROM QNAFILES WHERE FILE_NUM=#{fileNum}
+ 	</select>
+ 	
  </mapper>

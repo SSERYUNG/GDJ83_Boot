@@ -59,4 +59,13 @@ public class QnaController {
 		model.addAttribute("vo", qnaVO);
 	}
 	
+	@GetMapping("fileDown")
+	public String fileDown(QnaFileVO qnaFileVO,Model model) throws Exception {
+		
+		qnaFileVO = qnaService.getFileDetail(qnaFileVO);
+		model.addAttribute("file", qnaFileVO);
+		
+		return "fileDownView";
+	}
+	
 }
