@@ -1,6 +1,7 @@
 package com.sse.app.members;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -13,5 +14,6 @@ public class MemberVO {
 	private String email;
 	private Date birth;
 	private boolean enabled;
+	private List<RoleVO> vos;
 
 }

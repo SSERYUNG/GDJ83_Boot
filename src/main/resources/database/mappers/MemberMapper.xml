@@ -10,9 +10,33 @@
 	 VALUES (#{username},#{password},#{name},#{email},#{birth},1)
 	</insert>
  	
- 	<select id="detail" parameterType="MemberVO" resultType="MemberVO">
- 	 SELECT * FROM MEMBERS
- 	 WHERE USERNAME=#{username}
+ 	<select id="detail" parameterType="MemberVO" resultMap="MemberRoleMap">
+ 	 SELECT *
+ 	 FROM MEMBERS M
+ 	 INNER JOIN
+ 	 MEMBER_ROLE MR
+ 	 ON M.USERNAME=MR.USERNAME
+ 	 INNER JOIN
+ 	 ROLE R
+ 	 ON MR.ROLE_NUM=R.ROLE_NUM
+ 	 WHERE M.USERNAME=#{username}
  	</select>
+ 	
+ 	<resultMap type="MemberVO" id="MemberRoleMap">
+ 		<id property="username" column="USERNAME"/>
+ 		<result property="password" column="PASSWORD"/>
+ 		<result property="name" column="NAME"/>
+ 		<result property="email" column="EMAIL"/>
+ 		<result property="birth" column="BIRTH"/>
+ 		<result property="enabled" column="ENABLED"/>
+ 		<collection property="vos" javaType="java.util.List" ofType="RoleVO">
+ 			<id property="roleNum" column="ROLE_NUM"/>
+ 			<result property="roleName" column="ROLE_NAME"/>
+ 		</collection>
+ 	</resultMap>
+ 	
+ 	<insert id="addRole" parameterType="java.util.Map">
+ 	 INSERT INTO MEMBER_ROLE VALUES (#{username},#{rolenum})
+ 	</insert>
  	
  </mapper>
