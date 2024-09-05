@@ -38,7 +38,13 @@ public class QnaService {
 	public int add(QnaVO qnaVO,MultipartFile[] attaches) throws Exception {
 
 		int result = qnaMapper.add(qnaVO);
+	
 		result = qnaMapper.refUpdate(qnaVO);
+		
+//		예외를 발생시키겠다 그럼 if만 실행하고 이 함수는 예외를 던지고 끝나게 됨
+		if(result==1) {
+			throw new Exception();
+		}
 		
 		//파일을 HDD(하드디스크)에 저장 후 DB에 정보를 추가
 		for(MultipartFile mf : attaches) {
