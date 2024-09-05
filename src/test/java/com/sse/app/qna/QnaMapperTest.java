@@ -7,10 +7,13 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sse.app.util.Pager;
 
 @SpringBootTest
+@Transactional //모든 테스트 메서드 실행 후 전부 롤백 처리 하려고 주는 어노테이션
 class QnaMapperTest {
 	
 	@Autowired
@@ -42,7 +45,8 @@ class QnaMapperTest {
 		
 	}
 	
-	@Test
+//	@Test
+	@Rollback(false) //메서드 실행 후 롤백 안 하겠다(클래스에 @Transactional 줬지만 예외를 주는 것)
 	void getListTest() throws Exception{
 		Pager pager = new Pager();
 		
