@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import com.sse.app.home.interceptors.AdminCheckInterceptor;
 import com.sse.app.home.interceptors.LoginInterceptor;
@@ -15,6 +16,8 @@ public class InterceptorConfig implements WebMvcConfigurer{
 	private LoginInterceptor loginInterceptor;
 	@Autowired
 	private AdminCheckInterceptor adminCheckInterceptor;
+	@Autowired
+	private LocaleChangeInterceptor localeChangeInterceptor;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -28,6 +31,9 @@ public class InterceptorConfig implements WebMvcConfigurer{
 	
 	registry.addInterceptor(adminCheckInterceptor)
 			.addPathPatterns("/admin/*"); 
+	
+	registry.addInterceptor(localeChangeInterceptor)
+			.addPathPatterns("/**");
 
 	}
 
