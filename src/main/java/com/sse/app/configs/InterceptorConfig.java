@@ -25,9 +25,9 @@ public class InterceptorConfig implements WebMvcConfigurer{
 //	어떤 url이 왔을 때, 어떤 Interceptor를 실행할 것인가
 //	/qna/list 라는 url이 왔을 때 loginInterceptor를 거치게 하자
 		
-	registry.addInterceptor(loginInterceptor)
-			.addPathPatterns("/qna/*")
-			.excludePathPatterns("/qna/list");
+//	registry.addInterceptor(loginInterceptor)
+//			.addPathPatterns("/qna/*")
+//			.excludePathPatterns("/qna/list");
 	
 	registry.addInterceptor(adminCheckInterceptor)
 			.addPathPatterns("/admin/*"); 

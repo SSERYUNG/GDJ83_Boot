@@ -5,12 +5,43 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 @Service
 public class MemberService {
 
 	@Autowired
 	private MemberMapper memberMapper;
+	
+//	검증 메서드
+	
+	public boolean memberValidate(MemberVO memberVO,BindingResult bindingResult) throws Exception{
+		
+		//check=false : 검증성공(error 없음)
+		//check=true  : 검증실패(error 있음)
+		boolean check=false;
+		
+//		0. 기본 검증값(컨트롤러에서 Annotaion 검증의 결과값)
+		check = bindingResult.hasErrors();
+		
+//		1. password 일치하는지 검증
+		
+		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
+			check=true;
+//			에러메시지 주는 법
+			bindingResult.rejectValue("passwordCheck","memberVO.pw.notEqual");
+		}
+		
+//		2. id 중복 검사
+		 MemberVO result = memberMapper.detail(memberVO);
+		 if(result!=null) {
+			 check = true;
+			 bindingResult.rejectValue("username","memberVO.username.duplication");
+		 }
+		
+		return check;
+		
+	}
 	
 	public int add (MemberVO memberVO) throws Exception{
 
