@@ -47,6 +47,7 @@ public class QnaService {
 		}
 		
 		//파일을 HDD(하드디스크)에 저장 후 DB에 정보를 추가
+		if(attaches!=null) {
 		for(MultipartFile mf : attaches) {
 			if(mf==null||mf.isEmpty()) {
 				continue;
@@ -61,6 +62,7 @@ public class QnaService {
 			
 			result = qnaMapper.addFile(qnaFileVO);
 			
+			}
 		}
 		
 		return result;

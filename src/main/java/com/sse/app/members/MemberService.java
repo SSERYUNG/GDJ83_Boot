@@ -4,14 +4,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
-public class MemberService {
+@Slf4j
+public class MemberService implements UserDetailsService{
 
 	@Autowired
 	private MemberMapper memberMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+//	인터페이스의 메서드를 오버라이딩 해서 쓰는 것이기 때문에, 메서드의 내용만 바꿀수 있지 선언부는 바꿀수가 없어!
+//	그래서 내가 exception의 종류를 바꿀수가 없다. 그래서 여기서 try, catch 해줘야함
+//	시큐리티 필터에서 작동하는 것
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(username);
+	
+		try {
+			memberVO = memberMapper.detail(memberVO);
+			log.info("{}",memberVO.getUsername());
+			log.info("{}",memberVO.getPassword());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return memberVO;
+	}
 	
 //	검증 메서드
 	
@@ -44,6 +75,9 @@ public class MemberService {
 	}
 	
 	public int add (MemberVO memberVO) throws Exception{
+		
+//		사용자가 회원가입할때 입력한 비밀번호를 암호화 해서 db에 집어넣는 과정
+		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 
 		int result = memberMapper.add(memberVO);
 		

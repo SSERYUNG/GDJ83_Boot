@@ -28,10 +28,11 @@ public class InterceptorConfig implements WebMvcConfigurer{
 //	registry.addInterceptor(loginInterceptor)
 //			.addPathPatterns("/qna/*")
 //			.excludePathPatterns("/qna/list");
+//	
+//	registry.addInterceptor(adminCheckInterceptor)
+//			.addPathPatterns("/admin/*"); 
 	
-	registry.addInterceptor(adminCheckInterceptor)
-			.addPathPatterns("/admin/*"); 
-	
+//	언어 인터셉터
 	registry.addInterceptor(localeChangeInterceptor)
 			.addPathPatterns("/**");
 

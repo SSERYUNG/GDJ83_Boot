@@ -13,4 +13,6 @@ public interface MemberMapper {
 	
 	public int addRole(Map<String, Object> map) throws Exception;
 	
+	public int pwUpdate (MemberVO memberVO) throws Exception;
+	
 }
