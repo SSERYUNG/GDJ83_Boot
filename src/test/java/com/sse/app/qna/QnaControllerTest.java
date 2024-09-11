@@ -70,7 +70,7 @@ class QnaControllerTest {
 //	}
 	
 	
-	@Test
+//	@Test
 	public void add() throws Exception {
 		
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();

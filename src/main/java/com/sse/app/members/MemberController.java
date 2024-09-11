@@ -1,8 +1,13 @@
 package com.sse.app.members;
 
 import java.lang.reflect.Member;
+import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +21,11 @@ import com.sse.app.validate.MemberUpdateGroup;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/member/*")
+@Slf4j
 public class MemberController {
 
 	@Autowired
@@ -28,6 +35,13 @@ public class MemberController {
 //	public void add(Model model) throws Exception {
 //		model.addAttribute("memberVO", new MemberVO());
 //	}
+	
+	@GetMapping("check")
+	public void check() throws Exception {
+		
+		
+		
+	}
 	
 	@GetMapping("add") //위에랑 똑같은 메서드임
 	public void add(MemberVO memberVO) throws Exception {
@@ -54,7 +68,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("login")
-	public void login() throws Exception {
+	public void login(String message,Model model) throws Exception {
+		
+		model.addAttribute("message", message);
 		
 	}
 	
@@ -70,14 +86,39 @@ public class MemberController {
 //		return "redirect:/";
 //	} 
 	
-	@GetMapping("logout")
-	public String logout(HttpSession session) throws Exception {
-		session.invalidate();
-		return "redirect:/";
-	}
+//	@GetMapping("logout")
+//	public String logout(HttpSession session) throws Exception {
+//		session.invalidate();
+//		return "redirect:/";
+//	}
 	
 	@GetMapping("mypage")
-	public void mypage() throws Exception {
+	public void mypage(HttpSession session) throws Exception {
+		
+//		세션에 담겨있는 것들을 다 꺼내서 담아보려고 함
+//		1번 방법
+		Enumeration<String> en = session.getAttributeNames();
+		
+		while(en.hasMoreElements()) {
+			String name = en.nextElement();
+			log.info("Name : {}",name); //지금은 SPRING_SECURITY_CONTEXT 라는 속성명이 하나 있음
+		}
+		
+		SecurityContextImpl sc = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
+		log.info("obj : {}",sc);
+		
+//		2번 방법
+		SecurityContext context = SecurityContextHolder.getContext();
+		log.info("context : {}",context);
+		
+//		====== 위에서 일단 session?을 꺼내놓고 그 안의 필요한 데이터들을 꺼내보자
+		
+		Authentication authentication = context.getAuthentication();
+		log.info("authentication : {}",authentication);
+		
+		MemberVO memberVO = (MemberVO)authentication.getPrincipal();
+		log.info("memberVO : {}",memberVO);
+		log.info("Name : {}",authentication.getName());
 		
 	}
 	

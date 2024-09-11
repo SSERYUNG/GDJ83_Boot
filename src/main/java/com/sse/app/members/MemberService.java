@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class MemberService implements UserDetailsService{
+public class MemberService{
 
 	@Autowired
 	private MemberMapper memberMapper;
@@ -23,29 +23,7 @@ public class MemberService implements UserDetailsService{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-//	인터페이스의 메서드를 오버라이딩 해서 쓰는 것이기 때문에, 메서드의 내용만 바꿀수 있지 선언부는 바꿀수가 없어!
-//	그래서 내가 exception의 종류를 바꿀수가 없다. 그래서 여기서 try, catch 해줘야함
-//	시큐리티 필터에서 작동하는 것
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		MemberVO memberVO = new MemberVO();
-		memberVO.setUsername(username);
-	
-		try {
-			memberVO = memberMapper.detail(memberVO);
-			log.info("{}",memberVO.getUsername());
-			log.info("{}",memberVO.getPassword());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return memberVO;
-	}
-	
 //	검증 메서드
-	
 	public boolean memberValidate(MemberVO memberVO,BindingResult bindingResult) throws Exception{
 		
 		//check=false : 검증성공(error 없음)

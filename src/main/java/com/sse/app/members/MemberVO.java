@@ -67,8 +67,4 @@ public class MemberVO implements UserDetails{
 		return true;
 	}
 	
-	public boolean isEnabled() {
-		return true;
-	}
-	
 }
