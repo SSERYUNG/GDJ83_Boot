@@ -47,6 +47,10 @@ public class MemberVO implements UserDetails,OAuth2User{
 //	여기에는 token 정보가 저장 됨
 	private Map<String, Object> attributes;
 	
+	private String accessToken;
+//	소셜 로그인 하는 곳이 어디냐(ex 카카오, 네이버)
+	private String sns;
+	
 	@Override
 	public Map<String, Object> getAttributes() {
 		// TODO Auto-generated method stub

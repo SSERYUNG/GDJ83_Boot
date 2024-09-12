@@ -27,6 +27,9 @@ public class SecurityConfig {
 	private SecurityLoginFailHandler failHandler;
 	
 	@Autowired
+	private SecurityLogoutSuccessHandler logoutSuccessHandler;
+	
+	@Autowired
 	private MemberUserService memberUserService;
 
 	@Bean
@@ -100,7 +103,8 @@ public class SecurityConfig {
 //					.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
 					.logoutUrl("/member/logout")
 //					logout 성공시 어디로 갈 것인가
-					.logoutSuccessUrl("/")
+					.logoutSuccessHandler(logoutSuccessHandler)
+//					.logoutSuccessUrl("/")
 //					세션 만료시키겠다(true)
 					.invalidateHttpSession(true)
 //					.deleteCookies(null) <<- 로그인할 때 넣어놓은 쿠기가 있으면 삭제할수도 있음
