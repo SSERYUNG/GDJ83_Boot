@@ -134,6 +134,17 @@ public class SecurityConfig {
 						.expiredUrl("/member/check")
 				)
 		
+//		Social Login
+		.oauth2Login(
+				oauth2 ->
+				 	oauth2
+				 	.userInfoEndpoint(
+				 			user -> user.userService(memberUserService)
+				 			)
+				)
+		
+		
+		
 		
 		;
 				

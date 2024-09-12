@@ -18,11 +18,14 @@
 	
 	<sec:authorize access="!isAuthenticated()">
 	<h1>로그인 하기 전</h1>
+	<a href="/member/login">Login</a>
+	<!-- 이 주소는 고정! -->
+	<a href="/oauth2/authorization/kakao?prompt=login">Kakao Login</a>
 	</sec:authorize>
 	
 	<sec:authorize access="isAuthenticated()">
 		<h1>로그인 했다</h1>
-		<sec:authentication property="principal" var="member"/>
+ 		<sec:authentication property="principal" var="member"/>
 		<spring:message code="member.login.message" arguments="${member.username},${member.email}" argumentSeparator=","></spring:message>
 		<c:forEach items="${member.vos}" var="v">
 			<h3>${v.roleName}</h3>

@@ -4,10 +4,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.sse.app.validate.MemberAddGroup;
 import com.sse.app.validate.MemberUpdateGroup;
@@ -19,8 +21,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+//UserDetails를 구현하면 얘가 username,password를 가져오는 getter,setter 메서드가 있음
 @Data
-public class MemberVO implements UserDetails{
+public class MemberVO implements UserDetails,OAuth2User{
 	
 	@NotBlank(groups = {MemberAddGroup.class, MemberUpdateGroup.class})
 	private String username;
@@ -38,6 +41,19 @@ public class MemberVO implements UserDetails{
 	private Date birth;
 	private boolean enabled;
 	private List<RoleVO> vos;
+	
+//	OAuth2User 오버라이딩 하는 곳
+	
+//	여기에는 token 정보가 저장 됨
+	private Map<String, Object> attributes;
+	
+	@Override
+	public Map<String, Object> getAttributes() {
+		// TODO Auto-generated method stub
+		return this.attributes;
+	}
+
+	//
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
