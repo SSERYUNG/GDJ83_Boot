@@ -40,7 +40,7 @@ public class QnaController {
 		return this.board;
 	}
 	
-	@CrossOrigin //cors 허용 어노테이션
+	@CrossOrigin //cors 허용 어노테이션 (외부에서의 요청을 허용하겠다)
 	@GetMapping("list")
 	public List<QnaVO> getList(Pager pager)throws Exception{
 		
